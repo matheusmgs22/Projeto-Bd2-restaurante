@@ -15,5 +15,10 @@
   "bugs": {
     "url": "https://github.com/matheusmgs22/Projeto-Bd2-restaurante/issues"
   },
-  "homepage": "https://github.com/matheusmgs22/Projeto-Bd2-restaurante#readme"
+  "homepage": "https://github.com/matheusmgs22/Projeto-Bd2-restaurante#readme",
+  "dependencies": {
+    "express": "^4.21.1",
+    "module-alias": "^2.2.3",
+    "projeto-bd2-restaurante": "file:"
+  }
 }
