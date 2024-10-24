@@ -1,0 +1,19 @@
+{
+  "name": "projeto-bd2-restaurante",
+  "version": "1.0.0",
+  "description": "restaurant database",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/matheusmgs22/Projeto-Bd2-restaurante.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/matheusmgs22/Projeto-Bd2-restaurante/issues"
+  },
+  "homepage": "https://github.com/matheusmgs22/Projeto-Bd2-restaurante#readme"
+}

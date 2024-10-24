@@ -1,9 +1,10 @@
-const { Client } = require('pg');  // vamos usar o PG para conectar ao Postgre
+const { Client } = require('pg');
+
 const client = new Client({
-  host: 'localhost',       // deixa padrão
-  port: 5432,              // Porta padrão do PostgreSQL
-  user: 'postgres',     // postgres é o usuario padrão
-  password: '205252',
+  host: process.env.DB_HOST || 'localhost',
+  port: process.env.DB_PORT || 5432,
+  user: process.env.DB_USER || 'postgres',
+  password: process.env.DB_PASSWORD || '205252',
   database: 'restaurante',
 });
 
@@ -19,4 +20,4 @@ async function connectDB() {
   }
 }
 
-connectDB();
+module.exports = { connectDB };
