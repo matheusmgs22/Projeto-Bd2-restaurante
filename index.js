@@ -6,7 +6,8 @@ const clienteRoutes = require('./routes/clienteRoutes');
 const pratoRoutes = require('./routes/pratoRoutes');
 const fornecedorRoutes = require('./routes/fornecedorRoutes');
 const ingredienteRoutes = require('./routes/ingredienteRoutes');
-
+const usoRoutes = require('./routes/usoRoutes');
+const vendaRoutes = require('./routes/vendaRoutes');
 
 app.use(express.json());
 
@@ -14,6 +15,9 @@ app.use('/api', clienteRoutes);
 app.use('/api', pratoRoutes);
 app.use('/api', fornecedorRoutes);
 app.use('/api', ingredienteRoutes);
+app.use('/api', usoRoutes);
+app.use('/api', vendaRoutes);
+
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
