@@ -1,11 +1,11 @@
 const connectDB = require('../db/connect');
 
 // Inserir cliente
-async function inserirCliente(nome, sexo, idade, nascimento) {
+async function inserirCliente(nome, sexo, idade, nascimento, pontos) {
     const client = await connectDB();
     try {
-        const query = 'INSERT INTO cliente (nome, sexo, idade, nascimento) VALUES ($1, $2, $3, $4)';
-        await client.query(query, [nome, sexo, idade, nascimento]);
+        const query = 'INSERT INTO cliente (nome, sexo, idade, nascimento, pontos) VALUES ($1, $2, $3, $4, $5)';
+        await client.query(query, [nome, sexo, idade, nascimento, pontos]);
         console.log('Cliente inserido com sucesso!');
     } catch (err) {
         console.error('Erro ao inserir cliente:', err);
@@ -13,11 +13,11 @@ async function inserirCliente(nome, sexo, idade, nascimento) {
 }
 
 // Atualizar cliente
-async function atualizarCliente(id, nome, sexo, idade, nascimento) {
+async function atualizarCliente(id, nome, sexo, idade, nascimento, pontos) {
     const client = await connectDB();
     try {
-        const query = 'UPDATE cliente SET nome = $1, sexo = $2, idade = $3, nascimento = $4 WHERE id = $5';
-        await client.query(query, [nome, sexo, idade, nascimento, id]);
+        const query = 'UPDATE cliente SET nome = $1, sexo = $2, idade = $3, nascimento = $4, pontos = $5 WHERE id = $6';
+        await client.query(query, [nome, sexo, idade, nascimento, pontos, id]);
         console.log('Cliente atualizado com sucesso!');
     } catch (err) {
         console.error('Erro ao atualizar cliente:', err);
