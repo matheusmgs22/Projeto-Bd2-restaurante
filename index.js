@@ -4,11 +4,13 @@ const express = require('express');
 const app = express();
 const clienteRoutes = require('./routes/clienteRoutes');
 const pratoRoutes = require('./routes/pratoRoutes');
+const fornecedorRoutes = require('./routes/fornecedorRoutes');
 
 app.use(express.json());
 
 app.use('/api', clienteRoutes);
 app.use('/api', pratoRoutes);
+app.use('/api', fornecedorRoutes);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
