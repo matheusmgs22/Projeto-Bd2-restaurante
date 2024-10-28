@@ -25,7 +25,6 @@ app.listen(PORT, () => {
 });
 
 
-
 /*
 const createTables = require('./db/createTables'); //  ta funcionando legal. Ta criando as tabelas
 const insertData = require('./db/insertData'); // ta funcionando legal. Ta inserindo os 10 inserts nas tabelas
