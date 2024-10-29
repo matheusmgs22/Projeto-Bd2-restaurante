@@ -4,17 +4,17 @@ async function insertData() {
   const client = await connectDB();
     try {
       const query = `
-        INSERT INTO cliente (nome, sexo, idade, nascimento) VALUES
-        ('João Silva', 'm', 30, '1993-05-10'),
-        ('Maria Souza', 'f', 25, '1998-07-15'),
-        ('Pedro Santos', 'm', 40, '1984-09-25'),
-        ('Ana Paula', 'f', 35, '1989-02-18'),
-        ('Lucas Almeida', 'm', 28, '1996-03-22'),
-        ('Fernanda Lima', 'f', 32, '1991-12-30'),
-        ('Gustavo Ribeiro', 'm', 45, '1979-11-05'),
-        ('Letícia Ferreira', 'f', 22, '2001-08-19'),
-        ('Rafael Costa', 'm', 38, '1985-06-12'),
-        ('Juliana Menezes', 'f', 27, '1997-04-01');
+        INSERT INTO cliente (nome, sexo, idade, nascimento, pontos) VALUES
+        ('João Silva', 'm', 30, '1993-05-10', 0),
+        ('Maria Souza', 'f', 25, '1998-07-15', 0),
+        ('Pedro Santos', 'm', 40, '1984-09-25', 200),
+        ('Ana Paula', 'f', 35, '1989-02-18', 0),
+        ('Lucas Almeida', 'm', 28, '1996-03-22', 0),
+        ('Fernanda Lima', 'f', 32, '1991-12-30', 0),
+        ('Gustavo Ribeiro', 'm', 45, '1979-11-05', 0),
+        ('Letícia Ferreira', 'f', 22, '2001-08-19', 0),
+        ('Rafael Costa', 'm', 38, '1985-06-12', 0),
+        ('Juliana Menezes', 'f', 27, '1997-04-01', 0);
 
         INSERT INTO prato (nome, descricao, valor, disponibilidade) VALUES
         ('Filé à Parmegiana', 'Filé de frango empanado com molho de tomate e queijo gratinado.', 70.00, TRUE),

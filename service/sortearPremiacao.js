@@ -1,4 +1,3 @@
-// service/sortearPremiacao.js
 const connectDB = require('../db/connect');
 
 async function sortearPremiacao() {
