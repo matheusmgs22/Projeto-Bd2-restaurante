@@ -2,7 +2,7 @@ const connectDB = require('./connect');
 
 async function createTables() {
   const client = await connectDB();
-
+c
   try {
     const query = `
       -- Criar tabelas
