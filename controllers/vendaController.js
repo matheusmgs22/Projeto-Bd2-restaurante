@@ -1,4 +1,4 @@
-const connectDB = require('../db/connect');
+const { connectDB } = require('../config/db');
 
 // Inserir venda
 async function inserirVenda(id_cliente, id_prato, quantidade, dia, hora, valor) {

@@ -1,4 +1,4 @@
-const connectDB = require('../db/connect');
+const { connectDB } = require('../config/db');
 
 // Inserir fornecedor
 async function inserirFornecedor(nome, estado_origem) {

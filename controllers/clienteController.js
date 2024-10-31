@@ -1,4 +1,4 @@
-const connectDB = require('../db/connect');
+const { connectDB } = require('../config/db');
 
 // Inserir cliente
 async function inserirCliente(nome, sexo, idade, nascimento, pontos) {

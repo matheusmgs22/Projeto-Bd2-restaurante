@@ -1,4 +1,4 @@
-const connectDB = require('../db/connect');
+const { connectDB } = require('../config/db');
 
 // Inserir ingrediente
 async function inserirIngrediente(nome, data_fabricacao, data_validade, quantidade, observacao) {

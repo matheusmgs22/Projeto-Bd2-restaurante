@@ -1,20 +1,7 @@
-const { Pool } = require('pg');
-
-const connectDB = async (database = 'postgres') => {
-  const client = new Pool({
-    user: 'postgres',
-    host: 'localhost',
-    database: database,
-    password: '205252',
-    port: 5432,
-  });
-
-  await client.connect();
-  return client;
-};
+const { connectDB } = require('../config/db');
 
 async function createDatabase() {
-  const client = await connectDB('postgres');
+  const client = await connectDB();
 
   try {
     const dbExists = await client.query("SELECT 1 FROM pg_database WHERE datname = 'restaurante'");

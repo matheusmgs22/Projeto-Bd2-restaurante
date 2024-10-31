@@ -1,4 +1,4 @@
-const connectDB = require('./connect');
+const { connectDB } = require('../config/db');
 
 async function createTriggers() {
   const client = await connectDB();

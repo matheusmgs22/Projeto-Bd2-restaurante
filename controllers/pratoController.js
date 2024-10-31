@@ -1,4 +1,4 @@
-const connectDB = require('../db/connect');
+const { connectDB } = require('../config/db');
 
 // Inserir prato
 async function inserirPrato(nome, descricao, valor, disponibilidade) {
