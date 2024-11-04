@@ -1,4 +1,4 @@
-const connectDB = require('../db/connect');
+const connectDB = require('../config/db');
 
 async function reajustarPrecos(percentual) {
     const client = await connectDB();

@@ -1,4 +1,4 @@
-const connectDB = require('./connect');
+const connectDB = require('../config/db');
 
 async function createTriggers() {
   const client = await connectDB();
@@ -6,8 +6,8 @@ async function createTriggers() {
   try {
     const query = `
       -- Trigger para definir disponibilidade como 0 se o ingrediente inserido estiver vencido
-      CREATE TRIGGER ingredientes_AFTER_INSERT AFTER INSERT ON ingredientes 
-      FOR EACH ROW 
+      CREATE TRIGGER ingredientes_AFTER_INSERT AFTER INSERT ON ingredientes
+      FOR EACH ROW
       BEGIN
         IF NEW.data_validade < CURRENT_DATE THEN
           UPDATE prato
@@ -18,8 +18,8 @@ async function createTriggers() {
       END;
 
       -- Trigger para atualizar a disponibilidade de prato após atualização de ingrediente
-      CREATE TRIGGER ingredientes_AFTER_UPDATE AFTER UPDATE ON ingredientes 
-      FOR EACH ROW 
+      CREATE TRIGGER ingredientes_AFTER_UPDATE AFTER UPDATE ON ingredientes
+      FOR EACH ROW
       BEGIN
         IF NEW.data_validade < CURRENT_DATE THEN
           UPDATE prato
@@ -30,8 +30,8 @@ async function createTriggers() {
       END;
 
       -- Trigger para atualizar a quantidade de ingredientes ao inserir em usos
-      CREATE TRIGGER usos_AFTER_INSERT AFTER INSERT ON usos 
-      FOR EACH ROW 
+      CREATE TRIGGER usos_AFTER_INSERT AFTER INSERT ON usos
+      FOR EACH ROW
       BEGIN
         IF (SELECT quantidade FROM ingredientes WHERE id = NEW.id_ingrediente) > 0 THEN
           UPDATE ingredientes
@@ -41,8 +41,8 @@ async function createTriggers() {
       END;
 
       -- Trigger para verificar disponibilidade do prato antes de inserir venda
-      CREATE TRIGGER venda_BEFORE_INSERT BEFORE INSERT ON venda 
-      FOR EACH ROW 
+      CREATE TRIGGER venda_BEFORE_INSERT BEFORE INSERT ON venda
+      FOR EACH ROW
       BEGIN
         DECLARE disponibilidade INT;
         DECLARE ingrediente_vencido INT DEFAULT 0;
@@ -51,7 +51,7 @@ async function createTriggers() {
         SELECT disponibilidade INTO disponibilidade
         FROM prato
         WHERE id = NEW.id_prato;
-        
+
         -- Verifica se o prato está indisponível e atualiza o motivo
         IF disponibilidade = 0 THEN
           SET NEW.motivo = 'Prato indisponível';
@@ -63,7 +63,7 @@ async function createTriggers() {
         JOIN usos ON usos.id_ingrediente = ingredientes.id
         WHERE usos.id_prato = NEW.id_prato
           AND ingredientes.data_validade < CURRENT_DATE;
-        
+
         IF ingrediente_vencido > 0 THEN
           SET NEW.motivo = 'Ingredientes vencidos no prato';
         END IF;
@@ -75,8 +75,8 @@ async function createTriggers() {
       END;
 
       -- Trigger para reduzir a quantidade de ingredientes e atualizar pontos do cliente após venda
-      CREATE TRIGGER venda_AFTER_INSERT AFTER INSERT ON venda 
-      FOR EACH ROW 
+      CREATE TRIGGER venda_AFTER_INSERT AFTER INSERT ON venda
+      FOR EACH ROW
       BEGIN
         -- Reduz a quantidade de ingredientes para o prato vendido
         UPDATE ingredientes

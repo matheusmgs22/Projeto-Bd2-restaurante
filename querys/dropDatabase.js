@@ -1,4 +1,4 @@
-const { connectDB } = require('../config/db');
+const connectDB = require('../config/db');
 
 // Função para deletar o banco de dados
 async function dropDatabase() {

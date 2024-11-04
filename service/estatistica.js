@@ -1,4 +1,4 @@
-const connectDB = require('../db/connect');
+const connectDB = require('../config/db');
 
 async function exibirEstatisticas() {
     const client = await connectDB();
@@ -73,6 +73,8 @@ async function exibirEstatisticas() {
         console.log("Estatísticas de Vendas:", resultado.rows);
     } catch (err) {
         console.error('Erro ao exibir estatísticas:', err);
+    } finally {
+        await client.end();
     }
 }
 

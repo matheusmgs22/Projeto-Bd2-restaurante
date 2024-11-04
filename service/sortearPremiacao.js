@@ -1,4 +1,4 @@
-const connectDB = require('../db/connect');
+const connectDB = require('../config/db');
 
 async function sortearPremiacao() {
     const client = await connectDB();

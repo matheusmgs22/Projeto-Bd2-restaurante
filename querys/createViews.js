@@ -1,4 +1,4 @@
-const { connectDB } = require('../config/db');
+const connectDB = require('../config/db');
 
 async function createViews() {
     const client = await connectDB();
