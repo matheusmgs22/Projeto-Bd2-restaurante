@@ -16,9 +16,9 @@ Sistema de banco de dados desenvolvido na disciplina de banco de dados 2.
 
 ## 1. Criar o Banco de Dados
 
-Primeiro, verifique se o banco de dados `restaurante` já existe. **Se ele já foi criado**, use o [connect.js](/Projeto-Bd2-restaurante/db/connect.js) para se conectar ao banco.
+Primeiro, verifique se o banco de dados `restaurante` já existe. **Se ele já foi criado**, use o [db.js](config/db.js) para se conectar ao banco.
 
-Caso contrário, use o [createDatabase](/Projeto-Bd2-restaurante/db/createDatabase.js) para criar o banco de dados. Ele será criado automaticamente no Postgre.
+Caso contrário, use o [createDatabase](querys/createDatabase.js) para criar o banco de dados. Ele será criado automaticamente no Postgre.
 
 1. Abra o terminal.
 2. Navegue até o diretório `db`.
@@ -34,7 +34,7 @@ Este comando é o primeiro passo da configuração, para garantir que o banco re
 
 Após garantir que o banco `restaurante` exista, você pode criar as tabelas necessárias para o funcionamento do projeto.
 
-1. Ainda no diretório db, execute o arquivo [createTable.js](/Projeto-Bd2-restaurante/db/createTables.js):
+1. Ainda no diretório db, execute o arquivo [createTable.js](querys/createTables.js):
 
  ```bash
 node createTable.js
@@ -101,7 +101,7 @@ O procedimento `reajustarPrecos.js` aplica um reajuste de preço, em percentual,
     node reajustarPrecos.js
     ```
 
-O script ajustará os preços na tabela prato conforme a porcentagem de reajuste especificada no código [reajustarPrecos.js](/Projeto-Bd2-restaurante\service\reajustarPrecos.js). No caso, estamos reajustando em 10% o valor dos pratos.
+O script ajustará os preços na tabela prato conforme a porcentagem de reajuste especificada no código [reajustarPrecos.js](service\reajustarPrecos.js). No caso, estamos reajustando em 10% o valor dos pratos.
 
 
 ## 2. Procedimento - Sorteio
@@ -117,4 +117,4 @@ premiação de 100 pontos.
    node sortearPremiacao.js
     ```
 
-O script selecionará clientes aleatórios da tabela cliente, aplicando um benefício de 100 pontos a esse cliente. [sortearPremiacao.js](/Projeto-Bd2-restaurante/service/sortearPremiacao.js)
+O script selecionará clientes aleatórios da tabela cliente, aplicando um benefício de 100 pontos a esse cliente. [sortearPremiacao.js](service/sortearPremiacao.js)
