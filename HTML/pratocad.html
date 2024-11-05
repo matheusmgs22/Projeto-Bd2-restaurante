@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Cadastro_Prato</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <h1>Cadastro_Cliente</h1>
+
+    <nav class="navbar">
+        <ul>
+            <li><a href="index.html">Selecionar Usuário</a></li>
+            <li><a href="itemcad.html">Cadastrar um registro</a></li>
+            <li><a href="gastarpontos.html">Gastar Pontos</a></li>
+            <li><a href="vendaconsulta.html">Consultar Vendas</a></li>
+            <li><a href="itemeditar.html">Editar um registro</a></li>
+            <li><a href="reajuste.html">Reajustar preços</a></li>
+            <li><a href="sorteio.html">Fazer um Sorteio</a></li>
+            <li><a href="estatisticas.html">Consultar Estatísticas</a></li>
+        </ul>
+        </nav><br>
+
+        <h1>criação de Registro de Prato</h1><br>
+
+        <p>Preencha todos os campos a seguir e escolha "0" ou "1" para a disponibilidade:</p>
+        <input type="text" id="nome" required placeholder="nome...">
+        <input type="text" id="descricao" required placeholder="descrição...">
+        <input type="text" id="valor" required placeholder="valor...">
+        <input type="number" id="disponibilidade" min = "0" max = "1" required placeholder="0/1"><br>
+        
+
+        <input id="btPraCad" type="button" onclick="addPrato()" value="Criar Prato">
+        
+
+        <p1 id="prato"></p1>
+
+        <script>
+            const cl = [];
+            const n = document.getElementById("nome");
+            const d = document.getElementById("descricao");
+            const v = document.getElementById("valor");
+            const dis = document.getElementById("disponibilidade");
+
+            function addPrato(){
+                if(n.value !== "" && d !== "" && v !=="" && dis !== ""){
+                    if(dis.value === "0" || dis.value === "1"){
+                    cl.push(n.value);
+                    cl.push(d.value);
+                    cl.push(v.value);
+                    cl.push(dis.value);
+                    n.value = "";
+                    d.value = "";
+                    v.value = "";
+                    dis.value = "";
+                    document.getElementById("prato").innerHTML = "foi criado o Prato: " + cl;
+                    cl.shift();
+                    cl.shift();
+                    cl.shift();
+                    cl.shift();
+                }
+            }
+        }
+        
+        </script>
+
+    </body>
+</html>
