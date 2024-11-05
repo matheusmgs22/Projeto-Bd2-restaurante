@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Cadastro_Cliente</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <h1>Cadastro_Cliente</h1>
+
+    <nav class="navbar">
+        <ul>
+            <li><a href="index.html">Selecionar Usuário</a></li>
+            <li><a href="itemcad.html">Cadastrar um registro</a></li>
+            <li><a href="gastarpontos.html">Gastar Pontos</a></li>
+            <li><a href="vendaconsulta.html">Consultar Vendas</a></li>
+            <li><a href="itemeditar.html">Editar um registro</a></li>
+            <li><a href="reajuste.html">Reajustar preços</a></li>
+            <li><a href="sorteio.html">Fazer um Sorteio</a></li>
+            <li><a href="estatisticas.html">Consultar Estatísticas</a></li>
+        </ul>
+        </nav><br>
+
+        <h1>criação de Registro de Cliente</h1><br>
+
+        <p>Preencha todos os campos a seguir:</p>
+        <input type="text" id="nome" required placeholder="nome...">
+        <input type="text" id="sexo" required placeholder="sexo...('m' ou 'f' ou 'o')">
+        <input type="number" id="idade" required placeholder="idade">
+        <input type="number" id="datnasc" required placeholder="data de nascimento...">
+        <input type="number" id="pontos" required placeholder="pontos..."><br>
+
+        <input id="btCliCad" type="button" onclick="addCliente()" value="Criar Cliente">
+        
+
+        <p1 id="client"></p1>
+
+        <script>
+            //const allcl = [];
+            const cl = [];
+            const n = document.getElementById("nome");
+            const s = document.getElementById("sexo");
+            const i = document.getElementById("idade");
+            const dn = document.getElementById("datnasc");
+            const p = document.getElementById("pontos");
+
+            function addCliente(){
+                if(n.value !== "" && i !== "" && s !=="" && dn !== "" && p !== ""){
+                    if(s.value === "m" || s.value === "f" || s.value === "o"){
+                    cl.push(n.value);
+                    cl.push(s.value);
+                    cl.push(i.value);
+                    cl.push(dn.value);
+                    cl.push(p.value);
+                    n.value = "";
+                    s.value = "";
+                    i.value = "";
+                    dn.value = "";
+                    p.value = "";
+                    document.getElementById("client").innerHTML = "foi criado(a) o(a) Cliente: " + cl;
+                    cl.shift();
+                    cl.shift();
+                    cl.shift();
+                    cl.shift();
+                    cl.shift();
+                }
+            }
+        }
+        
+        </script>
+
+    </body>
+</html>
