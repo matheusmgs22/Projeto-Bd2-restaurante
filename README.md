@@ -59,5 +59,62 @@ Execute o arquivo `insertData.js`:
 ```bash
 node insertData.js
 ```
-Foram feitos 10 inserts nas tabelas: Cliente, prato, fornecedore, ingrediente e venda.
+Foram feitos 10 inserts nas tabelas: Cliente, prato, fornecedor, ingrediente e venda.
 
+---
+
+## 3. Criar os Triggers
+
+## 4. Criar os Users
+
+## 5. Criar as Views
+
+## 6. Excluir o Banco de Dados
+Para garantir que o banco de dados `restaurante` seja excluído do Postgre, siga os passos abaixo:
+
+1. **Executar o Script**
+
+   Abra o terminal, navegue até o diretório `querys`, e execute o comando para rodar o script `dropDatabase.js`:
+
+    ```bash
+    node dropDatabase.js
+    ```
+
+2. **Confirmação da Exclusão**
+
+   Se o script for executado corretamente, o banco `restaurante` será completamente removido. Verifique no PostgreSQL se o banco não aparece mais na lista de bancos de dados.
+
+Esse processo é útil caso precise resetar o ambiente para testar o fluxo de criação do banco novamente.
+
+
+# Procedimentos e Funções
+
+## 1. Procedimento - Reajustar Preços
+
+O procedimento `reajustarPrecos.js` aplica um reajuste de preço, em percentual, aos pratos do restaurante que aumenta o valor de todos os pratos.
+
+1. Navegue até o diretório `service` do projeto no seu terminal.
+
+2. Execute o script com o comando:
+
+    ```bash
+    node reajustarPrecos.js
+    ```
+
+O script ajustará os preços na tabela prato conforme a porcentagem de reajuste especificada no código [reajustarPrecos.js](/Projeto-Bd2-restaurante\service\reajustarPrecos.js). No caso, estamos reajustando em 10% o valor dos pratos.
+
+
+## 2. Procedimento - Sorteio
+
+Esse procedimento `sortearPremiacao.js` sorteia clientes  aleatoriamente para que este cliente receba uma
+premiação de 100 pontos.
+
+1. Navegue até o diretório `service` do projeto no seu terminal.
+
+2. Execute o script com o comando:
+
+    ```bash
+   node sortearPremiacao.js
+    ```
+
+O script selecionará clientes aleatórios da tabela cliente, aplicando um benefício de 100 pontos a esse cliente. [sortearPremiacao.js](/Projeto-Bd2-restaurante/service/sortearPremiacao.js)
