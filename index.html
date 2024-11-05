@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Restaurante_B.D.</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <h1>Restaurante B.D.</h1>
+
+    <nav class="navbar">
+        <ul>
+            <li><a href="index.html">Selecionar Usuário</a></li>
+            <li><a href="itemcad.html">Cadastrar um registro</a></li>
+            <li><a href="gastarpontos.html">Gastar Pontos</a></li>
+            <li><a href="vendaconsulta.html">Consultar Vendas</a></li>
+            <li><a href="itemeditar.html">Editar um registro</a></li>
+            <li><a href="reajuste.html">Reajustar preços</a></li>
+            <li><a href="sorteio.html">Fazer um Sorteio</a></li>
+            <li><a href="estatisticas.html">Consultar Estatísticas</a></li>
+        </ul>
+        </nav><br>
+        
+        <h1>Seleção de Usuário</h1><br>
+        
+        
+            <p>digite "funcionario", "gerente" ou "administrador"</p>
+            <input type="text" id="texto" required placeholder="digite aqui">
+  
+            <input id="btAdicionar" type="button" onclick="addfila()" value="Adicionar">
+          
+            <p1 id="array"></p1>
+            <p2 id="f"></p2>
+          
+            <script>
+            
+            const tfila = [];
+            const t = document.getElementById("texto");
+            var u = 0;
+            
+            function addfila() {
+              if(t.value === "funcionario"){
+                tfila.shift();
+                tfila.push(t.value);
+                u = 1;
+                document.getElementById("array").innerHTML = "você está logado como: " + tfila;
+                t.value = "";
+                }
+
+                if(t.value === "gerente"){
+                tfila.shift();
+                tfila.push(t.value);
+                u = 2;
+                document.getElementById("array").innerHTML = "você está logado como: " + tfila;
+                t.value = "";
+                }
+
+                if(t.value === "administrador"){
+                tfila.shift();
+                tfila.push(t.value);
+                u = 3;
+                document.getElementById("array").innerHTML = "você está logado como: " + tfila;
+                t.value = "";
+                }
+            }
+            </script>
+        
+        
+    </body>
+</html>
