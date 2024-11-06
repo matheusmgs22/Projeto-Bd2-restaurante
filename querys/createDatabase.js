@@ -32,7 +32,7 @@ async function createDatabase() {
   } catch (err) {
     console.error('Erro ao criar banco de dados:', err);
   } finally {
-    await client.end();  // Fechar a conexão com o banco 'postgres'
+    await client.end();
   }
 
   const newClient = await connectDB('restaurante');
@@ -43,7 +43,7 @@ async function createDatabase() {
   } catch (err) {
     console.error('Erro ao conectar ao banco de dados "restaurante":', err);
   } finally {
-    await newClient.end();  // Fechar a conexão com o banco 'restaurante'
+    await newClient.end();
   }
 }
 
