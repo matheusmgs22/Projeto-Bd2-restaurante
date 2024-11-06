@@ -1,87 +1,147 @@
 const connectDB = require('../config/db');
 
-async function exibirEstatisticas() {
+async function criarProcedimento() {
     const client = await connectDB();
     try {
-        const estatisticasQuery = `
-            WITH vendas_por_produto AS (
-                SELECT
-                    id_prato,
-                    EXTRACT(MONTH FROM dia) AS mes_venda,
-                    SUM(quantidade) AS total_vendido,
-                    SUM(valor) AS valor_total
-                FROM venda
-                GROUP BY id_prato, mes_venda
-            ),
-            produto_mais_vendido AS (
-                SELECT id_prato, total_vendido, valor_total
-                FROM vendas_por_produto
-                ORDER BY total_vendido DESC
-                LIMIT 1
-            ),
-            produto_menos_vendido AS (
-                SELECT id_prato, total_vendido, valor_total
-                FROM vendas_por_produto
-                ORDER BY total_vendido ASC
-                LIMIT 1
-            )
-            SELECT
+        const criarProcedimentoSQL = `
+            CREATE OR REPLACE PROCEDURE calcular_estatisticas_vendas()
+            LANGUAGE plpgsql
+            AS $$
+            DECLARE
+                record RECORD;
+            BEGIN
                 -- Produto mais vendido
-                (SELECT p.nome FROM prato p JOIN produto_mais_vendido pmv ON p.id = pmv.id_prato) AS produto_mais_vendido,
-
-                -- Valor ganho com o produto mais vendido
-                (SELECT SUM(vd.valor) FROM venda vd JOIN produto_mais_vendido pmv ON vd.id_prato = pmv.id_prato) AS valor_mais_vendido,
-
-                -- Mês de maior e menor vendas do produto mais vendido
-                (SELECT EXTRACT(MONTH FROM vd.dia)
-                 FROM venda vd
-                 JOIN produto_mais_vendido pmv ON vd.id_prato = pmv.id_prato
-                 GROUP BY EXTRACT(MONTH FROM vd.dia)
-                 ORDER BY SUM(vd.quantidade) DESC
-                 LIMIT 1) AS mes_maior_venda_produto_mais_svendido,
-
-                (SELECT EXTRACT(MONTH FROM vd.dia)
-                 FROM venda vd
-                 JOIN produto_mais_vendido pmv ON vd.id_prato = pmv.id_prato
-                 GROUP BY EXTRACT(MONTH FROM vd.dia)
-                 ORDER BY SUM(vd.quantidade) ASC
-                 LIMIT 1) AS mes_menor_venda_produto_mais_vendido,
+                RAISE NOTICE 'Produto mais vendido:';
+                FOR record IN
+                    WITH vendas_por_produto AS (
+                        SELECT
+                            id_prato,
+                            SUM(quantidade) AS total_vendido,
+                            SUM(valor) AS valor_total
+                        FROM venda
+                        GROUP BY id_prato
+                    )
+                    SELECT p.nome, vp.total_vendido, vp.valor_total
+                    FROM vendas_por_produto vp
+                    JOIN prato p ON vp.id_prato = p.id
+                    ORDER BY vp.total_vendido DESC
+                    LIMIT 1
+                LOOP
+                    RAISE NOTICE 'Nome: %, Total Vendido: %, Valor Total: %',
+                        record.nome, record.total_vendido, record.valor_total;
+                END LOOP;
 
                 -- Produto menos vendido
-                (SELECT p.nome FROM prato p JOIN produto_menos_vendido pmv ON p.id = pmv.id_prato) AS produto_menos_vendido,
+                RAISE NOTICE 'Produto menos vendido:';
+                FOR record IN
+                    WITH vendas_por_produto AS (
+                        SELECT
+                            id_prato,
+                            SUM(quantidade) AS total_vendido,
+                            SUM(valor) AS valor_total
+                        FROM venda
+                        GROUP BY id_prato
+                    )
+                    SELECT p.nome, vp.total_vendido, vp.valor_total
+                    FROM vendas_por_produto vp
+                    JOIN prato p ON vp.id_prato = p.id
+                    ORDER BY vp.total_vendido ASC
+                    LIMIT 1
+                LOOP
+                    RAISE NOTICE 'Nome: %, Total Vendido: %, Valor Total: %',
+                        record.nome, record.total_vendido, record.valor_total;
+                END LOOP;
 
-                -- Valor ganho com o produto menos vendido
-                (SELECT SUM(vd.valor) FROM venda vd JOIN produto_menos_vendido pmv ON vd.id_prato = pmv.id_prato) AS valor_menos_vendido,
+                -- Mês de maior e menor vendas do produto mais vendido
+                RAISE NOTICE 'Mês de maior e menor vendas do produto mais vendido:';
+                FOR record IN
+                    WITH vendas_por_produto AS (
+                        SELECT
+                            id_prato,
+                            EXTRACT(MONTH FROM dia) AS mes_venda,
+                            SUM(quantidade) AS total_vendido
+                        FROM venda
+                        GROUP BY id_prato, mes_venda
+                    ),
+                    produto_mais_vendido AS (
+                        SELECT id_prato
+                        FROM vendas_por_produto
+                        ORDER BY total_vendido DESC
+                        LIMIT 1
+                    )
+                    SELECT
+                        (SELECT EXTRACT(MONTH FROM vd.dia)
+                         FROM venda vd
+                         JOIN produto_mais_vendido pmv ON vd.id_prato = pmv.id_prato
+                         GROUP BY EXTRACT(MONTH FROM vd.dia)
+                         ORDER BY SUM(vd.quantidade) DESC
+                         LIMIT 1) AS mes_maior_venda_produto_mais_vendido,
+
+                        (SELECT EXTRACT(MONTH FROM vd.dia)
+                         FROM venda vd
+                         JOIN produto_mais_vendido pmv ON vd.id_prato = pmv.id_prato
+                         GROUP BY EXTRACT(MONTH FROM vd.dia)
+                         ORDER BY SUM(vd.quantidade) ASC
+                         LIMIT 1) AS mes_menor_venda_produto_mais_vendido
+                LOOP
+                    RAISE NOTICE 'Maior Mês: %, Menor Mês: %',
+                        record.mes_maior_venda_produto_mais_vendido,
+                        record.mes_menor_venda_produto_mais_vendido;
+                END LOOP;
 
                 -- Mês de maior e menor vendas do produto menos vendido
-                (SELECT EXTRACT(MONTH FROM vd.dia)
-                 FROM venda vd
-                 JOIN produto_menos_vendido pmv ON vd.id_prato = pmv.id_prato
-                 GROUP BY EXTRACT(MONTH FROM vd.dia)
-                 ORDER BY SUM(vd.quantidade) DESC
-                 LIMIT 1) AS mes_maior_venda_produto_menos_vendido,
+                RAISE NOTICE 'Mês de maior e menor vendas do produto menos vendido:';
+                FOR record IN
+                    WITH vendas_por_produto AS (
+                        SELECT
+                            id_prato,
+                            EXTRACT(MONTH FROM dia) AS mes_venda,
+                            SUM(quantidade) AS total_vendido
+                        FROM venda
+                        GROUP BY id_prato, mes_venda
+                    ),
+                    produto_menos_vendido AS (
+                        SELECT id_prato
+                        FROM vendas_por_produto
+                        ORDER BY total_vendido ASC
+                        LIMIT 1
+                    )
+                    SELECT
+                        (SELECT EXTRACT(MONTH FROM vd.dia)
+                         FROM venda vd
+                         JOIN produto_menos_vendido pmv ON vd.id_prato = pmv.id_prato
+                         GROUP BY EXTRACT(MONTH FROM vd.dia)
+                         ORDER BY SUM(vd.quantidade) DESC
+                         LIMIT 1) AS mes_maior_venda_produto_menos_vendido,
 
-                (SELECT EXTRACT(MONTH FROM vd.dia)
-                 FROM venda vd
-                 JOIN produto_menos_vendido pmv ON vd.id_prato = pmv.id_prato
-                 GROUP BY EXTRACT(MONTH FROM vd.dia)
-                 ORDER BY SUM(vd.quantidade) ASC
-                 LIMIT 1) AS mes_menor_venda_produto_menos_vendido
+                        (SELECT EXTRACT(MONTH FROM vd.dia)
+                         FROM venda vd
+                         JOIN produto_menos_vendido pmv ON vd.id_prato = pmv.id_prato
+                         GROUP BY EXTRACT(MONTH FROM vd.dia)
+                         ORDER BY SUM(vd.quantidade) ASC
+                         LIMIT 1) AS mes_menor_venda_produto_menos_vendido
+                LOOP
+                    RAISE NOTICE 'Maior Mês: %, Menor Mês: %',
+                        record.mes_maior_venda_produto_menos_vendido,
+                        record.mes_menor_venda_produto_menos_vendido;
+                END LOOP;
+
+            END;
+            $$;
         `;
 
-        const resultado = await client.query(estatisticasQuery);
-        console.log("Estatísticas de Vendas:", resultado.rows);
+        // Executando o comando para criar o procedimento
+        await client.query(criarProcedimentoSQL);
+        console.log("Procedimento 'calcular_estatisticas_vendas' criado com sucesso!");
     } catch (err) {
-        console.error('Erro ao exibir estatísticas:', err);
+        console.error('Erro ao criar procedimento:', err);
     } finally {
         await client.end();
     }
 }
 
 (async () => {
-    console.log("Calculando e exibindo estatísticas de vendas...");
-    await exibirEstatisticas();
-    console.log("Exibição de estatísticas concluída.");
+    console.log("Criando procedimento no banco de dados...");
+    await criarProcedimento();
+    console.log("Procedimento criado com sucesso.");
 })();
-
-module.exports = { exibirEstatisticas };
