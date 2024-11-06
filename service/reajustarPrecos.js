@@ -1,29 +1,34 @@
 const connectDB = require('../config/db');
 
-async function reajustarPrecos(percentual) {
+async function criarProcedureReajustarPrecos() {
     const client = await connectDB();
 
     try {
         const query = `
-            UPDATE prato
-            SET valor = valor + (valor * $1 / 100);
+            CREATE OR REPLACE PROCEDURE reajustar_precos(IN percentual NUMERIC)
+            LANGUAGE plpgsql
+            AS $$
+            BEGIN
+                UPDATE prato
+                SET valor = valor + (valor * (percentual / 100));
+                RAISE NOTICE 'Preços reajustados em % com sucesso!', percentual;
+            END;
+            $$;
         `;
-        await client.query(query, [percentual]);
-        console.log(`Preços reajustados em ${percentual}% com sucesso!`);
+
+        await client.query(query);
+        console.log('Procedure reajustar_precos criada com sucesso!');
     } catch (err) {
-        console.error('Erro ao reajustar preços:', err);
+        console.error('Erro ao criar o procedure:', err);
     } finally {
         await client.end();
     }
 }
 
 if (require.main === module) {
-    const percentualReajuste = 10;
-    if (!percentualReajuste) {
-        console.error('Por favor, forneça um percentual de reajuste.');
-        process.exit(1);
-    }
-    reajustarPrecos(parseFloat(percentualReajuste));
+    criarProcedureReajustarPrecos();
 }
 
-module.exports = reajustarPrecos;
+module.exports = criarProcedureReajustarPrecos;
+
+// execute o procedure com: CALL public.reajustar_precos(10)
