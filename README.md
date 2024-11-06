@@ -67,7 +67,29 @@ Foram feitos 10 inserts nas tabelas: Cliente, prato, fornecedor, ingrediente e v
 
 ## 4. Criar os Users
 
+Foi definido os seguintes Users para nosso projeto:
+
+- administrador (todos os privilégios)
+- gerente (privilégios para selecionar, deletar e atualizar)
+- funcionario (privilégios para inserir e selecionar)
+
+Execute o arquivo:
+```bash
+node createUsers.js
+```
+
 ## 5. Criar as Views
+
+Foi definido as seguintes Views para nosso projeto:
+
+- vendas_totais_por_cliente: vendas por cliente.
+- frequencia_pedidos_prato: pratos mais pedidos do restaurante.
+- ingredientes_mais_usados_pratos_disponiveis: ingredientes mais utilizados nos pratos do restaurante.
+
+Execute o arquivo:
+```bash
+node createViews.js
+```
 
 ## 6. Excluir o Banco de Dados
 Para garantir que o banco de dados `restaurante` seja excluído do Postgre, siga os passos abaixo:
