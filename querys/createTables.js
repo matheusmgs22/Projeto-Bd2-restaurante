@@ -2,7 +2,6 @@ const connectDB = require('../config/db');
 
 async function createTables() {
   const client = await connectDB();
-c
   try {
     const query = `
       -- Criar tabelas
@@ -64,5 +63,5 @@ c
   }
 }
 
-// createTables(); // Só para testar essa função.
-module.exports = createTables; // Exporta a função
+createTables();
+// module.exports = createTables;
