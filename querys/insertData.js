@@ -53,8 +53,16 @@ async function insertData() {
         ('Cenoura', '2024-10-10', '2025-03-10', 10, 'Ok');
 
         INSERT INTO venda (id_cliente, id_prato, quantidade, dia, hora, valor) VALUES
-        (1, 1, 2, '2024-10-20', '19:00', 140.00),
-        (2, 2, 1, '2024-10-20', '20:00', 100.00);
+        (1, 1, 2, '2024-10-21', '18:30', 140.00),  -- João Silva compra 2 Filé à Parmegiana
+        (2, 2, 1, '2024-10-21', '20:00', 100.00),  -- Maria Souza compra 1 Moqueca de Peixe
+        (3, 3, 3, '2024-10-22', '12:00', 360.00),  -- Pedro Santos compra 3 Risoto de Cogumelos
+        (4, 4, 1, '2024-10-22', '14:30', 60.00),   -- Ana Paula compra 1 Lasanha à Bolonhesa
+        (5, 5, 2, '2024-10-23', '20:15', 201.00),  -- Lucas Almeida compra 2 Salmão Grelhado
+        (6, 6, 1, '2024-10-23', '19:45', 50.00),   -- Fernanda Lima compra 1 Strogonoff de Frango
+        (7, 7, 2, '2024-10-24', '13:00', 241.00),  -- Gustavo Ribeiro compra 2 Escondidinho de Carne Seca
+        (8, 8, 1, '2024-10-24', '16:30', 150.00),  -- Letícia Ferreira compra 1 Picanha na Chapa
+        (9, 9, 1, '2024-10-25', '17:00', 70.00),   -- Rafael Costa compra 1 Bacalhau à Gomes de Sá
+        (10, 10, 1, '2024-10-25', '20:00', 80.00); -- Juliana Menezes compra 1 Frango à Pizzaiolo
 
         -- Pizza Margherita usa Farinha de Trigo, Tomate e Queijo Muçarela
         INSERT INTO usos (id_prato, id_ingrediente) VALUES (1, 1); -- Farinha de Trigo
