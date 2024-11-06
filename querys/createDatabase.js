@@ -1,7 +1,25 @@
-const connectDB = require('../config/db');
+const { Client } = require('pg');
+
+async function connectDB(database = 'postgres') {
+  const client = new Client({
+    host: process.env.DB_HOST || 'localhost',
+    port: process.env.DB_PORT || 5432,
+    user: process.env.DB_USER || 'postgres',
+    password: process.env.DB_PASSWORD || '205252',
+    database: database,
+  });
+
+  try {
+    await client.connect();
+    return client;
+  } catch (err) {
+    console.error('Erro ao conectar ao PostgreSQL:', err.stack);
+  }
+}
+
 
 async function createDatabase() {
-  const client = await connectDB();
+  const client = await connectDB('postgres');  // Conectar ao banco 'postgres'
 
   try {
     const dbExists = await client.query("SELECT 1 FROM pg_database WHERE datname = 'restaurante'");
@@ -14,9 +32,20 @@ async function createDatabase() {
   } catch (err) {
     console.error('Erro ao criar banco de dados:', err);
   } finally {
-    await client.end();
+    await client.end();  // Fechar a conexão com o banco 'postgres'
+  }
+
+  const newClient = await connectDB('restaurante');
+
+  try {
+    console.log('Conectado ao banco de dados "restaurante"!');
+
+  } catch (err) {
+    console.error('Erro ao conectar ao banco de dados "restaurante":', err);
+  } finally {
+    await newClient.end();  // Fechar a conexão com o banco 'restaurante'
   }
 }
 
-// Chamar a função
+// Chamar a função para criar o banco de dados
 createDatabase();
