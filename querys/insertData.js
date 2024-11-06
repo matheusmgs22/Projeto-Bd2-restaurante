@@ -5,16 +5,16 @@ async function insertData() {
     try {
       const query = `
         INSERT INTO cliente (nome, sexo, idade, nascimento, pontos) VALUES
-        ('João Silva', 'm', 30, '1993-05-10', 0),
-        ('Maria Souza', 'f', 25, '1998-07-15', 0),
+        ('João Silva', 'm', 30, '1993-05-10', 100),
+        ('Maria Souza', 'f', 25, '1998-07-15', 100),
         ('Pedro Santos', 'm', 40, '1984-09-25', 200),
-        ('Ana Paula', 'f', 35, '1989-02-18', 0),
-        ('Lucas Almeida', 'm', 28, '1996-03-22', 0),
-        ('Fernanda Lima', 'f', 32, '1991-12-30', 0),
-        ('Gustavo Ribeiro', 'm', 45, '1979-11-05', 0),
-        ('Letícia Ferreira', 'f', 22, '2001-08-19', 0),
-        ('Rafael Costa', 'm', 38, '1985-06-12', 0),
-        ('Juliana Menezes', 'f', 27, '1997-04-01', 0);
+        ('Ana Paula', 'f', 35, '1989-02-18', 100),
+        ('Lucas Almeida', 'm', 28, '1996-03-22', 200),
+        ('Fernanda Lima', 'f', 32, '1991-12-30', 300),
+        ('Gustavo Ribeiro', 'm', 45, '1979-11-05', 400),
+        ('Letícia Ferreira', 'f', 22, '2001-08-19', 100),
+        ('Rafael Costa', 'm', 38, '1985-06-12', 100),
+        ('Juliana Menezes', 'f', 27, '1997-04-01', 50);
 
         INSERT INTO prato (nome, descricao, valor, disponibilidade) VALUES
         ('Filé à Parmegiana', 'Filé de frango empanado com molho de tomate e queijo gratinado.', 70.00, TRUE),
@@ -55,6 +55,31 @@ async function insertData() {
         INSERT INTO venda (id_cliente, id_prato, quantidade, dia, hora, valor) VALUES
         (1, 1, 2, '2024-10-20', '19:00', 140.00),
         (2, 2, 1, '2024-10-20', '20:00', 100.00);
+
+        -- Pizza Margherita usa Farinha de Trigo, Tomate e Queijo Muçarela
+        INSERT INTO usos (id_prato, id_ingrediente) VALUES (1, 1); -- Farinha de Trigo
+        INSERT INTO usos (id_prato, id_ingrediente) VALUES (1, 2); -- Tomate
+        INSERT INTO usos (id_prato, id_ingrediente) VALUES (1, 4); -- Queijo Muçarela
+
+        -- Salada Caesar usa Alface, Tomate e Azeite de Oliva
+        INSERT INTO usos (id_prato, id_ingrediente) VALUES (2, 2); -- Tomate
+        INSERT INTO usos (id_prato, id_ingrediente) VALUES (2, 7); -- Azeite de Oliva
+
+        -- Risoto de Camarão usa Camarão, Arroz Arbóreo e Azeite de Oliva
+        INSERT INTO usos (id_prato, id_ingrediente) VALUES (3, 5); -- Camarão
+        INSERT INTO usos (id_prato, id_ingrediente) VALUES (3, 6); -- Arroz Arbóreo
+        INSERT INTO usos (id_prato, id_ingrediente) VALUES (3, 7); -- Azeite de Oliva
+
+        -- Frango à Parmegiana usa Peito de Frango, Farinha de Trigo e Queijo Muçarela
+        INSERT INTO usos (id_prato, id_ingrediente) VALUES (4, 3); -- Peito de Frango
+        INSERT INTO usos (id_prato, id_ingrediente) VALUES (4, 1); -- Farinha de Trigo
+        INSERT INTO usos (id_prato, id_ingrediente) VALUES (4, 4); -- Queijo Muçarela
+
+        -- Bacalhau à Portuguesa usa Bacalhau, Batata e Azeite de Oliva
+        INSERT INTO usos (id_prato, id_ingrediente) VALUES (5, 9); -- Bacalhau
+        INSERT INTO usos (id_prato, id_ingrediente) VALUES (5, 8); -- Batata
+        INSERT INTO usos (id_prato, id_ingrediente) VALUES (5, 7); -- Azeite de Oliva
+
       `;
 
       await client.query(query);
