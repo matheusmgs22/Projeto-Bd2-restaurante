@@ -60,6 +60,77 @@ Foram feitos 10 inserts nas tabelas: Cliente, prato, fornecedor, ingrediente e v
 
 ## 3. Criar os Triggers
 
+### 1. Trigger `ingredientes_AFTER_INSERT`
+Esse trigger é executado **após a inserção** de um novo ingrediente na tabela `ingredientes`.
+
+#### Objetivo
+O objetivo deste trigger é verificar se o ingrediente recém-inserido está vencido (ou seja, se sua `data_validade` é anterior à data atual). Caso esteja vencido, o trigger define os pratos que utilizam esse ingrediente como indisponíveis.
+
+#### Funcionamento
+1. Verificação da Data de Validade: O trigger verifica a validade do ingrediente (`NEW.data_validade < CURRENT_DATE`). Se a data de validade é anterior à data atual, significa que o ingrediente está vencido.
+2. Atualização da Disponibilidade: Caso o ingrediente esteja vencido, o trigger atualiza a disponibilidade dos pratos que utilizam esse ingrediente.
+   - Ele faz uma junção (`JOIN`) entre as tabelas `prato` e `usos` para encontrar os pratos que usam o ingrediente recém-inserido.
+   - Define a `disponibilidade` desses pratos como `0`, indicando que estão indisponíveis.
+
+
+### 2. Trigger `ingredientes_AFTER_UPDATE`
+Esse trigger é executado **após uma atualização** na tabela `ingredientes`.
+
+#### Objetivo
+Semelhante ao `ingredientes_AFTER_INSERT`, este trigger também verifica se o ingrediente atualizado está vencido e, caso esteja, marca os pratos que o utilizam como indisponíveis.
+
+#### Funcionamento
+1. Verificação da Validade do Ingrediente: Quando um ingrediente é atualizado, o trigger verifica se ele está vencido (`NEW.data_validade < CURRENT_DATE`).
+2. Atualização dos Pratos: Se o ingrediente atualizado está vencido, o trigger desativa os pratos que utilizam esse ingrediente, definindo sua `disponibilidade` como `0`.
+
+### 3. Trigger `usos_AFTER_INSERT`
+Esse trigger é acionado **após a inserção** de uma nova associação entre um ingrediente e um prato na tabela `usos`.
+
+#### Objetivo
+Reduz a quantidade do ingrediente associado ao prato em 1 unidade, se a quantidade disponível do ingrediente for maior que zero.
+
+#### Funcionamento
+1. Verificação de Quantidade: O trigger verifica a quantidade disponível do ingrediente (`quantidade > 0`).
+2. Redução de Estoque: Caso a quantidade do ingrediente seja positiva, o trigger diminui a `quantidade` em 1, refletindo o uso do ingrediente no prato.
+
+
+### 4. Trigger `venda_BEFORE_INSERT`
+Esse trigger é acionado **antes da inserção** de uma nova venda na tabela `venda`.
+
+#### Objetivo
+O objetivo deste trigger é garantir que o prato que se deseja vender esteja disponível e que todos os ingredientes estejam dentro da validade. Caso alguma dessas condições não seja atendida, o trigger insere uma mensagem de motivo de erro (`motivo`) e impede a venda.
+
+#### Funcionamento
+1. Verificação de Disponibilidade: 
+   - O trigger seleciona a disponibilidade do prato e armazena na variável `disponibilidade`.
+   - Se o prato não está disponível (`disponibilidade = 0`), ele define o campo `motivo` como `'Prato indisponível'`.
+
+2. Verificação de Ingredientes Vencidos:
+   - O trigger verifica se o prato possui algum ingrediente vencido.
+   - Ele conta os ingredientes vencidos associados ao prato e armazena o número na variável `ingrediente_vencido`.
+   - Se algum ingrediente estiver vencido (`ingrediente_vencido > 0`), define o campo `motivo` como `'Ingredientes vencidos no prato'`.
+
+
+### 5. Trigger `venda_AFTER_INSERT`
+Esse trigger é ativado **após a inserção** de uma venda na tabela `venda`.
+
+#### Objetivo
+Reduz a quantidade dos ingredientes utilizados no prato vendido e atualiza os pontos do cliente com base no valor e quantidade da venda.
+
+#### Funcionamento
+1. Redução de Estoque de Ingredientes:
+   - O trigger atualiza a tabela `ingredientes` para diminuir a `quantidade` de cada ingrediente associado ao prato vendido.
+   - Ele usa uma subconsulta para selecionar os `id_ingrediente` da tabela `usos`, onde o prato vendido (`NEW.id_prato`) é associado ao ingrediente.
+   - Reduz a `quantidade` em 1 para cada ingrediente, desde que a quantidade seja maior que zero.
+
+2. Atualização dos Pontos do Cliente:
+   - O trigger atualiza os pontos do cliente que realizou a compra (`id_cliente`).
+   - Calcula os pontos como `(NEW.quantidade * NEW.valor) / 10` e adiciona ao saldo atual de pontos do cliente, incentivando a fidelidade dos clientes com base no valor das compras.
+
+Esses triggers, ao serem executados automaticamente, facilitam o gerenciamento do inventário, garantindo que pratos com ingredientes vencidos sejam retirados do cardápio, controlando a quantidade de ingredientes e oferecendo recompensas de pontos aos clientes conforme suas compras.
+
+
+
 ## 4. Criar os Users
 
 Foi definido os seguintes Users para nosso projeto:
